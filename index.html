@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Session Details</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: transparent;
+      color: #223;
+      min-height: 100vh;
+      box-sizing: border-box;
+      overflow: auto !important;
+      scrollbar-width: none;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+    }
+    .main-container {
+      width: 100vw;
+      max-width: 100vw;
+      background: transparent;
+      margin: 0 auto 24px auto;
+      border-radius: 0;
+      box-shadow: 0 4px 18px rgba(40, 55, 75, 0.12),
+        0 1.5px 7px rgba(30, 48, 70, 0.09);
+      overflow: hidden;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      padding: 36px 16px 16px 16px;
+      position: relative;
+      background: linear-gradient(90deg, #21384b 0%, #68a6ea 100%);
+      color: #fff;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      gap: 20px;
+    }
+    .header-main {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-width: 0;
+      flex: 1 0 420px;
+    }
+    .header-titles {
+      flex: 1;
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .session-title {
+      margin: 0 0 8px 0;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+    .speaker-name {
+      margin: 0;
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+      color: #ffeec0;
+      font-style: normal;
+    }
+    .speaker-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff6;
+      background: #fff;
+    }
+    .register-btn {
+      display: inline-block;
+      background: #fff;
+      color: #24558e;
+      font-weight: 500;
+      border-radius: 20px;
+      padding: 7px 17px;
+      box-shadow: 0 2px 9px rgba(34, 60, 120, 0.13);
+      text-decoration: none;
+      margin: 0;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 0.97rem;
+      white-space: nowrap;
+      align-self: center;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #e3edf9;
+      background: #f7fafd;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 18px 0 14px 0;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #313650;
+      background: none;
+      border: none;
+      outline: none;
+      transition: background 0.15s;
+    }
+    .tab.active,
+    .tab:hover {
+      background: #e7f1fb;
+      color: #21567a;
+      border-bottom: 3px solid #377fc5;
+      font-weight: 600;
+    }
+    .tab-content {
+      padding: 34px 32px 30px 32px;
+      display: none;
+      background: #fcfdfe;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      transition: all 0.13s;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.23s linear;
+    }
+    .info-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+    .info-card {
+      background: #f1f6fa;
+      border-left: 4px solid #3973ab;
+      border-radius: 8px;
+      padding: 15px 22px;
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.05rem;
+      color: #31556e;
+  flex-wrap: wrap;       /* allow items inside to wrap */
+  overflow-wrap: anywhere; /* break long words if needed */
+    }
+    .info-card i {
+      color: #4689cb;
+      font-size: 1.35em;
+      margin-right: 10px;
+    }
+.reward-section {
+  background: #f1f9f4;
+  border-left: 4px solid #43a047;
+  padding: 14px 18px;
+  border-radius: 8px;
+  color: #2f5132;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.reward-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1.05rem;
+  flex-wrap: wrap;
+}
+.reward-card i {
+  font-size: 1.6rem;
+  color: #43a047;
+}
+
+    .section-title {
+      color: #235685;
+      font-size: 1.25rem;
+      margin: 24px 0 8px 0;
+      font-weight: 600;
+    }
+    .section-content {
+      background: #ecf3fa;
+      border-radius: 6px;
+      padding: 14px 20px;
+      font-size: 1.05em;
+      margin-bottom: 18px;
+      color: #33485a;
+    }
+ .tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 7px;
+  min-width: 0; /* important */
+}
+
+.tag {
+  background: #356180e8;
+  color: #fff;
+  font-size: 0.97rem;
+  border-radius: 19px;
+  padding: 6px 18px;
+  display: inline-block;
+  white-space: nowrap;
+}
+    .resources-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .resources-list li {
+      margin: 9px 0;
+    }
+    .resources-list a {
+      color: #225c9a;
+      text-decoration: none;
+    }
+    .resources-list a:hover {
+      text-decoration: underline;
+    }
+    .bio {
+      font-size: 1em;
+      color: #55616a;
+      line-height: 1.6;
+      background: #eaf4f8;
+      border-radius: 7px;
+      padding: 16px 14px;
+      margin-top: 9px;
+    }
+    @media (max-width: 700px) {
+      .main-container {
+        margin: 0;
+        border-radius: 0;
+      }
+      .header {
+        flex-wrap: wrap;
+        padding: 20px 12px 16px 12px;
+        gap: 12px;
+      }
+      .header-main {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        flex: 1 1 auto;
+      }
+      .header-titles {
+        flex: 1;
+        margin-right: 12px;
+      }
+      .session-title {
+        font-size: 1.4rem;
+      }
+      .speaker-name {
+        font-size: 1.05rem;
+      }
+      .register-btn {
+        margin: 0;
+        padding: 10px 16px;
+        font-size: 1rem;
+        border-radius: 18px;
+        white-space: nowrap;
+        align-self: center;
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="header">
+      <div class="header-main">
+        <!--<img
+          class="speaker-photo"
+          src=""
+          alt="Speaker Photo"
+        />-->
+        <div class="header-titles">
+          <h1 class="session-title">It's All in the Prompt!: The Secret to Better LLM Outputs</h1>
+          <div class="speaker-name">— Somsubhra De</div>
+        </div>
+      </div>
+      <a
+        href="https://mlseries.pythonanywhere.com/login?next=%2Fdashboard"
+        class="register-btn"
+        target="_blank"
+        rel="noopener"
+      >Register <i class="fas fa-external-link-alt"></i></a>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab(0)">Overview</button>
+      <button class="tab" onclick="showTab(1)">Topics</button>
+      <button class="tab" onclick="showTab(2)">Speaker</button>
+    </div>
+
+    <div class="tab-content active">
+      <div class="info-cards">
+        <div class="info-card">
+          <i class="fas fa-clock"></i> Duration: <strong>60 mins</strong>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-users"></i> Target: <strong>Beginners, Intermediate</strong>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-tag"></i> Tags:
+          <span class="tag">Prompt engineering</span>
+          <span class="tag">LLMs</span>
+          <span class="tag">NLP</span>
+          <span class="tag">hands-on</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">Abstract, Learning Outcomes</div>
+        <div class="section-content">
+          <p>
+            In today’s fast-moving world of AI, large language models (for eg. GPT-4) are powerful tools - but they work best when guided with the right prompts. This beginner-friendly session introduces the basics of prompt engineering and why prompt design makes such a difference.<br><br>
+            We’ll explore practical strategies for writing effective prompts, cover POML (Prompt Orchestration Markup Language), a new way to structure and optimize prompts for different tasks. Through hands-on exercises, participants will practice building prompts for common use cases like question answering. We won't go deep into technical details, rather this talk is meant to be structured in a easy-to-understand way for beginners.<br><br>
+            By the end, you’ll get a good essence of these concepts to design better prompts, get more out of LLMs, and apply these skills to real-world scenarios.<br>
+            P.S. Undoubtedly, while one session can never master the art of prompting, this session is designed to give beginners the first spark and hopefully, curiosity to keep exploring and learning more on their own.
+          </p>
+          <small><b>Pre-requisites:</b> Basics of Python, free API key recommended for hands-on experiment</small>
+        </div>
+      </div>
+<div class="section-title"></div>
+<div class="section-content reward-section">
+  <div class="reward-card">
+    <i class="fas fa-certificate"></i>
+    <div>
+      <strong>Appr. Certificate:</strong> participants who attend the session and complete* the mini hands-on activity post session.
+    </div>
+  </div>
+</div></div>
+
+    <div class="tab-content">
+      <div class="section-title">Topics Covered</div>
+      <div class="section-content">
+        <ul style="margin-top: 0; margin-bottom: 0; padding-left: 17px;">
+          <li>Introduction to LLMs and Prompt Engineering</li>
+          <li>Importance of prompt engineering in interacting with LLMs</li>
+          <li>Flavors of Efficient Prompt Engineering: Simple vs. complex prompts: When to use which?</li>
+          <li>N-shot, CoT style</li>
+          <li>Approaching QA tasks with LLMs</li>
+          <li>POML?</li>
+        </ul>
+      </div>
+<div class="section-title">Additional Resources</div>
+      <div class="section-content resources">
+        <ul>
+          <li>will be provided during the session; no pre-reading required</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+    <div class="tab-content">
+      <div class="section-title">Speaker Bio</div>
+      <div class="bio section-content">
+        <p>I'm currently in the degree level of the DS program. Over the last two years, I've worked on research projects in NLP, Generative AI, and Computer Vision, summer research fellow at IISER and IIT Roorkee. I enjoy working on problems that create social impact and have been an active part of communities that encourage learning and collaboration.<br>
+        I contribute as a discourse moderator and have mentored participants at LogicLooM, one of the flagship AI-ML events, for four consecutive editions at Paradox. Earlier, I've been a part of the CBSE-Intel AI4Youth student representative community.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(idx) {
+      document.querySelectorAll(".tab").forEach((el, i) => {
+        el.classList.toggle("active", i === idx);
+      });
+      document.querySelectorAll(".tab-content").forEach((el, i) => {
+        el.classList.toggle("active", i === idx);
+      });
+    }
+  </script>
+</body>
+</html>
